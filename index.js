@@ -6,7 +6,7 @@ const {LocalStorage} = require('node-localstorage');
 const localStorage = new LocalStorage('./scratch')
 
 const app = express();
-
+const PORT = process.env.PORT  || 3000
 // Middleware to parse JSON body data
 app.use(express.json());
 
@@ -160,8 +160,8 @@ function ensureFileExists(filePath) {
 
 
 // Start the server
-app.listen(3000, () => {
-  console.log('Server running at http://localhost:3000');
+app.listen(PORT, () => {
+  console.log(`server runnig on port ${PORT}`);
 });
 
 
