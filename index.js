@@ -2,10 +2,14 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const {LocalStorage} = require('node-localstorage');
+const cookieParser = require('cookie-parser');
+
+
 
 const localStorage = new LocalStorage('./scratch')
 
 const app = express();
+app.use(cookieParser());
 const PORT = process.env.PORT  || 3000
 // Middleware to parse JSON body data
 app.use(express.json());
@@ -164,81 +168,41 @@ app.listen(PORT, () => {
   console.log(`server runnig on port ${PORT}`);
 });
 
-
-//-----------------------------
-// API to sign in
-// app.post('/signin', (req, res) => {
-//     const { email, password } = req.body;
-
-//     if (!email || !password) {
-//         return res.status(400).json({ message: 'Email and password are required' });
-//     }
-
-//     const usersFilePath = path.join(__dirname, 'users.json');
-//     fs.readFile(usersFilePath, 'utf8', (err, data) => {
-//         if (err) {
-//             return res.status(500).json({ message: 'Error reading user data' });
-//         }
-
-//         let users = [];
-//         try {
-//             users = JSON.parse(data);
-//         } catch (parseErr) {
-//             return res.status(500).json({ message: 'Error parsing user data' });
-//         }
-
-//         const user = users.find(user => user.email === email);
-//         if (!user) {
-//             return res.status(400).json({ message: 'User not found' });
-//         }
-
-//         if (user.password !== password) {
-//             return res.status(400).json({ message: 'Incorrect password' });
-//         }
-
-//         res.status(200).json({ message: 'Login successful' });
-//     });
-// });
-
 // API to sign in
 app.post('/signin', (req, res) => {
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
-    if (!email || !password) {
-        return res.status(400).json({ message: 'Email and password are required' });
-    }
+  if (!email || !password) {
+      return res.status(400).json({ message: 'Email and password are required' });
+  }
 
-    const usersFilePath = path.join(__dirname, 'users.json');
-    fs.readFile(usersFilePath, 'utf8', (err, data) => {
-        if (err) {
-            return res.status(500).json({ message: 'Error reading user data' });
-        }
+  fs.readFile(usersFilePath, 'utf8', (err, data) => {
+      if (err) return res.status(500).json({ message: 'Error reading user data' });
 
-        let users = [];
-        try {
-            users = JSON.parse(data);
-        } catch (parseErr) {
-            return res.status(500).json({ message: 'Error parsing user data' });
-        }
+      let users;
+      try {
+          users = JSON.parse(data);
+      } catch {
+          return res.status(500).json({ message: 'Error parsing user data' });
+      }
 
-        const user = users.find(user => user.email === email);
-        if (!user) {
-            return res.status(400).json({ message: 'User not found' });
-        }
+      const user = users.find(user => user.email === email);
+      if (!user) return res.status(400).json({ message: 'User not found' });
 
-        if (user.password !== password) {
-            return res.status(400).json({ message: 'Incorrect password' });
-        }
-        // Send the username and email back in response for successful login
-        res.status(200).json({
-            message: 'Login successful',
-            username: user.username,
-            email: user.email
-        });
+      if (user.password !== password) return res.status(400).json({ message: 'Incorrect password' });
 
-        
-    });
+      // ✅ Set cookie
+      const role = user.username === 'admin' ? 'admin' : 'user';
+      res.cookie('token', role);
+
+      return res.status(200).json({
+          message: 'Login successful',
+          username: user.username,
+          email: user.email
+      });
+  });
 });
+
 
 // --------
 // app.get('/profile.html', (req, res) => {
@@ -488,17 +452,23 @@ app.get('/scores.json', (req, res) => {
   
   let token;
   app.post('/api/userdata', (req, res) => {
+    if (!req.body || !req.body.token) {
+      return res.status(400).json({ message: 'Invalid token data' });
+    }
     token = req.body;
     res.json({ message: 'Token received', token });
   });
+  
 
   //code to access admin tools
   app.get('/admin.html', (req, res) => {
-    if(token.token==='admin')
-    res.sendFile(path.join(__dirname, 'public', 'html', 'admin.html'));
-    else
-    res.sendFile(path.join(__dirname, 'public', 'html', 'index.html'));
+    if (token && token.token === 'admin') {
+      res.sendFile(path.join(__dirname, 'public', 'html', 'admin.html'));
+    } else {
+      res.sendFile(path.join(__dirname, 'public', 'html', 'index.html'));
+    }
   });
+  
 
 
   
