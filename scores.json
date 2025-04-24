@@ -22,5 +22,83 @@
     "quiz": "DBMS",
     "score": 4,
     "timestamp": "2025-04-24T01:00:55.831Z"
+  },
+  {
+    "name": "charan",
+    "quiz": "ADSJ",
+    "score": 4,
+    "timestamp": "2025-04-24T01:00:55.831Z"
+  },
+  {
+    "name": "Shyam",
+    "quiz": "DAA",
+    "score": 3,
+    "timestamp": "2025-04-24T01:00:55.831Z"
+  },
+  {
+    "name": "Pradeep",
+    "quiz": "sample",
+    "score": 0,
+    "timestamp": "2025-04-24T14:13:18.752Z"
+  },
+  {
+    "name": "Pradeep",
+    "quiz": "DBMS",
+    "score": 3,
+    "timestamp": "2025-04-24T14:13:54.486Z"
+  },
+  {
+    "name": "Pradeep",
+    "quiz": "DAA",
+    "score": 2,
+    "timestamp": "2025-04-24T14:17:41.488Z"
+  },
+  {
+    "name": "Pradeep",
+    "quiz": "ADSJ",
+    "score": 5,
+    "timestamp": "2025-04-24T14:22:52.858Z"
+  },
+  {
+    "name": "Pradeep",
+    "quiz": "OS",
+    "score": 3,
+    "timestamp": "2025-04-24T14:24:46.451Z"
+  },
+  {
+    "name": "Pradeep",
+    "quiz": "OS",
+    "score": 3,
+    "timestamp": "2025-04-24T14:24:58.069Z"
+  },
+  {
+    "name": "Pradeep",
+    "quiz": "DAA",
+    "score": 0,
+    "timestamp": "2025-04-24T14:26:43.779Z"
+  },
+  {
+    "name": "Pradeep",
+    "quiz": "ADSJ",
+    "score": 5,
+    "timestamp": "2025-04-24T15:28:52.772Z"
+  },
+  {
+    "name": "vamshith",
+    "quiz": "ADSJ",
+    "score": 2,
+    "timestamp": "2025-04-24T15:48:48.766Z"
+  },
+  {
+    "name": "Pradeep",
+    "quiz": "ADSJ",
+    "score": 3,
+    "timestamp": "2025-04-24T16:01:17.937Z"
+  },
+  {
+    "name": "admin",
+    "quiz": "Sample",
+    "score": 0,
+    "timestamp": "2025-04-24T18:09:56.620Z"
   }
 ]

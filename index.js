@@ -7,6 +7,13 @@ const {LocalStorage} = require('node-localstorage');
 const localStorage = new LocalStorage('./scratch')
 
 const app = express();
+const cors = require('cors');
+app.use(cors({
+    origin: 'https://quiz-production-c248.up.railway.app/', // Replace with your actual front-end URL
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 const PORT = process.env.PORT  || 3000
 // Middleware to parse JSON body data
 app.use(express.json());
@@ -451,13 +458,14 @@ app.get('/scores.json', (req, res) => {
   });
 
   
-  let token;
+  let token = { token: null };
   app.post('/api/userdata', (req, res) => {
-    if (!req.body || !req.body.token) {
-      return res.status(400).json({ message: 'Invalid token data' });
+    if (req.body && req.body.token) {
+      token = req.body; // Validate the token structure here if needed
+      res.json({ message: 'Token received', token });
+    } else {
+      res.status(400).json({ message: 'Invalid token data' });
     }
-    token = req.body;
-    res.json({ message: 'Token received', token });
   });
   
 
@@ -468,7 +476,9 @@ app.get('/scores.json', (req, res) => {
     } else {
       res.sendFile(path.join(__dirname, 'public', 'html', 'index.html'));
     }
+    console.log(token);
   });
+  
   
 
 
