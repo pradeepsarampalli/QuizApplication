@@ -471,11 +471,12 @@ app.get('/scores.json', (req, res) => {
 
   //code to access admin tools
   app.get('/admin.html', (req, res) => {
-    if (token && token.token === 'admin') {
-      res.sendFile(path.join(__dirname, 'public', 'html', 'admin.html'));
-    } else {
-      res.sendFile(path.join(__dirname, 'public', 'html', 'index.html'));
-    }
+    res.sendFile(path.join(__dirname, 'public', 'html', 'admin.html'));
+    // if (token && token.token === 'admin') {
+    //   res.sendFile(path.join(__dirname, 'public', 'html', 'admin.html'));
+    // } else {
+    //   res.sendFile(path.join(__dirname, 'public', 'html', 'index.html'));
+    // }
     console.log(token);
   });
   
