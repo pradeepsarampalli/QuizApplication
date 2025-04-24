@@ -8,20 +8,28 @@ const localStorage = new LocalStorage('./scratch')
 
 const app = express();
 const cors = require('cors');
+
+const PORT = process.env.PORT  || 3000
+// Startint the server
+app.listen(PORT, () => {
+  console.log(`server runnig on port ${PORT}`);
+});
+
+//if frontend and backed are opened in different ports for better connection cros module
 app.use(cors({
-    origin: 'https://quiz-production-c248.up.railway.app/', // Replace with your actual front-end URL
+    origin: 'https://quiz-production-c248.up.railway.app/', 
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-const PORT = process.env.PORT  || 3000
+
 // Middleware to parse JSON body data
 app.use(express.json());
 
-// Serve static files from public
+// Serving static files from public
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Serve HTML files
+// Serving HTML files
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'html', 'signin.html'));
 });
@@ -166,12 +174,6 @@ function ensureFileExists(filePath) {
     }
 }
 
-
-// Start the server
-app.listen(PORT, () => {
-  console.log(`server runnig on port ${PORT}`);
-});
-
 // API to sign in
 app.post('/signin', (req, res) => {
     const { email, password } = req.body;
@@ -212,27 +214,21 @@ app.post('/signin', (req, res) => {
     });
 });
 
-// --------
-// app.get('/profile.html', (req, res) => {
-//     res.sendFile(path.join(__dirname, 'public', 'html', 'profile.html'));
-//   });
-
+//route to open profile page
 app.get('/profile.html', (req, res) => {
-    // const userEmail = localStorage.getItem('userName');  // You can store the user session in cookies as an alternative
-    // if (!userEmail) {
-    //     return res.redirect('/index.html'); // Redirect if user is not logged in
-    // }
     res.sendFile(path.join(__dirname, 'public', 'html', 'profile.html'));
 });
 
+//route to get managequiz page
 app.get('/managequiz.html',(req,res)=>{
     res.sendFile(path.join(__dirname, 'public', 'html', 'managequiz.html'));
 })
 
+//route to get signin page
 app.get('/signin.html',(req,res)=>{
     res.sendFile(path.join(__dirname, 'public', 'html', 'signin.html'));
 })
-//new 
+ 
 // API to get all quizzes
 app.get('/quizzes', (req, res) => {
     const filePath = path.join(__dirname, 'quizzes.json');
@@ -308,12 +304,12 @@ app.get('/quiz/:index', (req, res) => {
     });
   });
   
-
+// code to route to create page
   app.get('/create.html',(req,res)=>{
     res.sendFile(path.join(__dirname, 'public', 'html', 'create.html'));
   })
 
-  // Route to update a quiz by index
+// Route to update a quiz by index
 app.put('/editquiz/:index', (req, res) => {
     const index = parseInt(req.params.index, 10);
     const updatedQuiz = req.body;
@@ -342,20 +338,23 @@ app.put('/editquiz/:index', (req, res) => {
     });
   });
   
-
+// code to route to editquiz page
   app.get('/editquiz.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'editquiz.html'));
   });
 
+  // code to route to leaderboard page
   app.get('/leaderboard.html',(req,res)=>{
     res.sendFile(path.join(__dirname, 'public', 'html', 'leaderboard.html'));
   })
 
+  // code to route to quiz writting page
   app.get('/attempt.html',(req,res)=>{
     res.sendFile(path.join(__dirname, 'public', 'html', 'attempt.html')); 
   })
 
-  // API to get all questions
+
+// API to get all questions
 app.get('/api/questions', (req, res) => {
     const filePath = path.join(__dirname, 'public', 'questions.json');
     fs.readFile(filePath, 'utf8', (err, data) => {
@@ -425,11 +424,11 @@ app.post('/attempt', (req, res) => {
   
 function ensureFileExists(filePath) {
     if (!fs.existsSync(filePath)) {
-        fs.writeFileSync(filePath, JSON.stringify([]));  // Create an empty array if the file doesn't exist
+        fs.writeFileSync(filePath, JSON.stringify([])); 
     }
 }
 
-
+// route to save score after quiz submission
 app.post('/api/save-score', (req, res) => {
     const newEntry = req.body;
 
@@ -457,11 +456,11 @@ app.get('/scores.json', (req, res) => {
     });
   });
 
-  
+  // verify admin via token userdata route
   let token = { token: null };
   app.post('/api/userdata', (req, res) => {
     if (req.body && req.body.token) {
-      token = req.body; // Validate the token structure here if needed
+      token = req.body; 
       res.json({ message: 'Token received', token });
     } else {
       res.status(400).json({ message: 'Invalid token data' });
@@ -472,20 +471,12 @@ app.get('/scores.json', (req, res) => {
   //code to access admin tools
   app.get('/admin.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'admin.html'));
-    // if (token && token.token === 'admin') {
-    //   res.sendFile(path.join(__dirname, 'public', 'html', 'admin.html'));
-    // } else {
-    //   res.sendFile(path.join(__dirname, 'public', 'html', 'index.html'));
-    // }
-    console.log(token);
   });
   
   
-
-
-  
-  const sourceFile = path.join(__dirname,'quizzes.json'); // Modify as needed
-  const targetFile = path.join(__dirname, 'public', 'questions.json'); // Modify as needed
+  //updating in temporary file and then in private file
+  const sourceFile = path.join(__dirname,'quizzes.json'); 
+  const targetFile = path.join(__dirname, 'public', 'questions.json');
   
 
 // Watch for changes in sourceFile

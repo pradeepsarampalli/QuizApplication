@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="../css/profile.css">
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <img src="../images/app-logo.png" alt="Logo" />
+            <h2>Quizz</h2>
+        </div>
+        <nav>
+            <ul>
+                <li><a id="home-link"  href="index.html">Home</a></li>
+                <li><a href="leaderboard.html">Leaderboard</a></li>
+                <li><a href="profile.html">Profile</a></li>
+            </ul>
+        </nav>
+    </div>
+    <br /><br />
+    <div class="profile-container">
+        <div class="profile-header">
+            <img src="../images/guest.png" alt="Profile Picture" class="profile-pic" />
+            <h1 class="username">Guest</h1>
+        </div>
+        <div class="profile-info">
+            <p><strong>Full Name:</strong> Guest</p>
+            <p><strong>Email:</strong> guest@example.com</p>
+            <p><strong>Age:</strong> 16</p>
+        </div>
+        <div class="profile-actions">
+            <button class="login-button"><a href="signin.html">Login</a></button>
+            <button class="logout-button">Logout</button>
+        </div>
+    </div>
+
+    <script src="../js/profile.js"></script>
+</body>
+</html>

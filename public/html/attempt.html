@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="../css/attempt.css">
+  <title>Attempt Quiz</title>
+</head>
+<body>
+  <div class="quiz-container" id="quiz-box">
+    <header class="quiz-header">
+      <h1>Quiz Title: General Knowledge</h1>
+      <div id="timer">Time Left: 05:00</div>
+    </header>
+    <div id="quiz-content"></div>
+    <div class="navigation-buttons">
+      <button class="prev-btn">Previous</button>
+      <button class="next-btn">Next</button>
+    </div>
+    <button class="submit-btn" disabled>Submit Quiz</button>
+    <button id="review-btn" style="display: none; margin-top: 10px;" class="submit-btn">Review Answers</button>
+  </div>
+
+  <div class="quiz-container" id="review-container" style="display: none;">
+    <h2>Review Your Answers</h2>
+    <div id="review-content"></div>
+    <button onclick="window.location.href='index.html'" style="margin-top: 20px;" class="submit-btn">Return to Home</button>
+  </div>
+
+  <script>
+    let currentQuestionIndex = 0;
+    let currentQuiz = [];
+    let selectedAnswers = [];
+    let timerInterval;
+  
+    function getQuizName() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('quiz');
+    }
+  
+    async function loadQuiz() {
+      const quizName = getQuizName();
+      try {
+        const response = await fetch('/api/questions');
+        const data = await response.json();
+        const quiz = data.find(q => q.title === quizName);
+        if (quiz) {
+          currentQuiz = quiz.questions;
+          selectedAnswers = new Array(currentQuiz.length).fill(null);
+          renderQuestion(currentQuiz[currentQuestionIndex]);
+          startTimer(5 * 60); // 5 minutes
+        } else {
+          document.getElementById('quiz-content').innerHTML = 'Quiz not found.';
+        }
+      } catch (error) {
+        console.error('Error loading quiz:', error);
+        document.getElementById('quiz-content').innerHTML = 'Failed to load quiz.';
+      }
+    }
+  
+    function renderQuestion(questionObj) {
+      const questionContainer = document.getElementById('quiz-content');
+      questionContainer.innerHTML = `
+        <h2 id="question">${questionObj.question}</h2>
+        <div class="answer-options">
+          ${questionObj.options.map((option, index) => `
+            <label>
+              <input type="radio" name="answer" value="${index}" ${selectedAnswers[currentQuestionIndex] === index ? 'checked' : ''}>
+              ${String.fromCharCode(65 + index)}) ${option}
+            </label>
+          `).join('')}
+        </div>
+      `;
+  
+      document.querySelectorAll('input[name="answer"]').forEach(input => {
+        input.addEventListener('change', () => {
+          selectedAnswers[currentQuestionIndex] = parseInt(input.value);
+          checkIfAllAnswered();
+        });
+      });
+      updateNavigationButtons();
+
+    }
+    function updateNavigationButtons() {
+      const prevBtn = document.querySelector('.prev-btn');
+      const nextBtn = document.querySelector('.next-btn');
+    
+      prevBtn.disabled = currentQuestionIndex === 0;
+      nextBtn.disabled = currentQuestionIndex === currentQuiz.length - 1;
+    }
+    
+    function checkIfAllAnswered() {
+      const allAnswered = selectedAnswers.every(ans => ans !== null);
+      document.querySelector('.submit-btn').disabled = !allAnswered;
+    }
+  
+    document.querySelector('.prev-btn').addEventListener('click', () => {
+      if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        renderQuestion(currentQuiz[currentQuestionIndex]);
+      }
+    });
+  
+    document.querySelector('.next-btn').addEventListener('click', () => {
+      if (currentQuestionIndex < currentQuiz.length - 1) {
+        currentQuestionIndex++;
+        renderQuestion(currentQuiz[currentQuestionIndex]);
+      }
+    });
+  
+    document.querySelector('.submit-btn').addEventListener('click', async () => {
+      let score = 0;
+      currentQuiz.forEach((q, index) => {
+        if (selectedAnswers[index] === q.options.indexOf(q.answer)) score++;
+      });
+  
+      const dataToSend = {
+        name: localStorage.getItem('userName'),
+        quiz: getQuizName(),
+        score: score,
+        timestamp: new Date().toISOString()
+      };
+  
+      try {
+        const response = await fetch('/api/save-score', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(dataToSend)
+        });
+  
+        const result = await response.text();
+        alert(`You scored ${score} out of ${currentQuiz.length}\n${result}`);
+        clearInterval(timerInterval);
+        document.getElementById('review-btn').style.display = 'inline-block';
+      } catch (error) {
+        console.error('Error sending score:', error);
+        alert('Error saving your score.');
+      }
+    });
+  
+    document.getElementById('review-btn').addEventListener('click', () => {
+      document.getElementById('quiz-box').style.display = 'none';
+      document.getElementById('review-container').style.display = 'block';
+      renderReview(currentQuiz, selectedAnswers);
+    });
+  
+    function renderReview(quiz, answers) {
+      const reviewContent = document.getElementById('review-content');
+      reviewContent.innerHTML = quiz.map((q, i) => {
+        const isCorrect = answers[i] === q.options.indexOf(q.answer);
+        const yourAnswer = answers[i] !== null ? q.options[answers[i]] : 'Not Answered';
+        return `
+          <div style="margin-bottom: 20px; padding: 10px; border-left: 5px solid ${isCorrect ? 'green' : 'red'};">
+            <h3>Q${i + 1}. ${q.question}</h3>
+            <p><strong>Your Answer:</strong> ${yourAnswer}</p>
+            <p><strong>Correct Answer:</strong> ${q.answer}</p>
+          </div>
+        `;
+      }).join('');
+    }
+  
+    function startTimer(duration) {
+      let timer = duration;
+      const timerDisplay = document.getElementById('timer');
+      timerInterval = setInterval(() => {
+        const minutes = String(Math.floor(timer / 60)).padStart(2, '0');
+        const seconds = String(timer % 60).padStart(2, '0');
+        timerDisplay.textContent = `Time Left: ${minutes}:${seconds}`;
+  
+        if (--timer < 0) {
+          clearInterval(timerInterval);
+          alert("Time's up! Submitting your quiz automatically.");
+          document.querySelector('.submit-btn').click();
+        }
+      }, 1000);
+    }
+  
+    window.onload = loadQuiz;
+  </script>
+  <script src="../js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a Quiz</title>
+    <link rel="stylesheet" href="../css/create.css"> 
+    <script src="../js/create.js"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <img src="../images/app-logo.png" alt="Logo">
+            <h2>Quizz</h2>
+        </div>
+        <nav>
+            <ul>
+                <li><a id="home-link"  href="index.html">Home</a></li>
+                <li><a href="leaderboard.html">Leaderboard</a></li>
+                <li><a href="profile.html">Profile</a></li>
+            </ul>
+        </nav>
+    </div>
+    <br>
+    <br>
+    <div class="container">
+        <h2>Create a Quiz</h2>
+        <form id="quiz-form" onsubmit="saveQuizToServer(event)">
+            <div class="form-group">
+                <label for="quiz-title">Quiz Title:</label>
+                <input type="text" id="quiz-title" name="quiz-title" required>
+            </div>
+            <div class="form-group">
+                <label for="num-questions">Number of Questions:</label>
+                <input type="number" id="num-questions" name="num-questions" min="1" required oninput="generateQuestions()">
+            </div>
+            <div id="questions-container"></div>
+            <button type="submit">Create Quiz</button>
+        </form>
+    </div>
+</body>
+</html>
