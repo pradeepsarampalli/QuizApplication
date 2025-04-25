@@ -220,55 +220,10 @@
     ]
   },
   {
-    "title": "sample",
-    "questions": [
-      {
-        "question": "question1",
-        "options": [
-          "1",
-          "2",
-          "3",
-          "4"
-        ],
-        "answer": 1
-      }
-    ]
-  },
-  {
     "title": "Sample",
     "questions": [
       {
-        "question": "Why are you?",
-        "options": [
-          "Human",
-          "Animal",
-          "Dog",
-          "Snake"
-        ],
-        "answer": 3
-      }
-    ]
-  },
-  {
-    "title": "COA",
-    "questions": [
-      {
-        "question": "what is cu?",
-        "options": [
-          "control unit",
-          "central unit",
-          "corrupted unit",
-          "count unit"
-        ],
-        "answer": "control unit"
-      }
-    ]
-  },
-  {
-    "title": "Hello",
-    "questions": [
-      {
-        "question": "jadkjwher",
+        "question": "q1",
         "options": [
           "1",
           "2",

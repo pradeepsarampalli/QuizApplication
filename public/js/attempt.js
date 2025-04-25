@@ -13,7 +13,7 @@ async function loadQuiz() {
   try {
     const response = await fetch('/api/questions');
     const data = await response.json();
-    const quiz = data.find(q => q.title === quizName);
+    const quiz = data.find(q => q.title.toLowerCase() === quizName?.toLowerCase());
     if (quiz) {
       currentQuiz = quiz.questions;
       selectedAnswers = new Array(currentQuiz.length).fill(null);
