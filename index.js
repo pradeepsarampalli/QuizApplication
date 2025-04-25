@@ -479,17 +479,26 @@ app.get('/scores.json', (req, res) => {
   const targetFile = path.join(__dirname, 'public', 'questions.json');
   
 
-// Watch for changes in sourceFile
-fs.watchFile(sourceFile, (curr, prev) => {
-  console.log(`${sourceFile} has been modified.`);
-
-  // Read from source and append to target
-  fs.readFile(sourceFile, 'utf8', (err, data) => {
-    if (err) return console.error('Read error:', err);
-
-    fs.appendFile(targetFile, `\n---\n${data}`, err => {
-      if (err) return console.error('Append error:', err);
-      console.log('Content appended to', targetFile);
+  fs.watchFile(sourceFile, (curr, prev) => {
+    console.log(`${sourceFile} has been modified.`);
+  
+    fs.readFile(sourceFile, 'utf8', (err, data) => {
+      if (err) return console.error('Read error:', err);
+  
+      try {
+        const quizzes = JSON.parse(data);
+        const questionsFormatted = quizzes.map(quiz => ({
+          title: quiz.title,
+          questions: quiz.questions
+        }));
+  
+        fs.writeFile(targetFile, JSON.stringify(questionsFormatted, null, 2), err => {
+          if (err) return console.error('Write error:', err);
+          console.log('questions.json updated successfully.');
+        });
+      } catch (e) {
+        console.error('Error parsing quizzes:', e);
+      }
     });
   });
-});
+  
