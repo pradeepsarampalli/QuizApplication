@@ -218,20 +218,5 @@
         "answer": "Traveling Salesman"
       }
     ]
-  },
-  {
-    "title": "Sample",
-    "questions": [
-      {
-        "question": "q1",
-        "options": [
-          "1",
-          "2",
-          "3",
-          "4"
-        ],
-        "answer": "1"
-      }
-    ]
   }
 ]

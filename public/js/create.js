@@ -76,6 +76,11 @@ function saveQuizToServer(event) {
     .then(response => response.json())
     .then(data => {
         alert(data.message);
+        const userName = localStorage.getItem('userName');
+        if (userName === 'admin') {
+            window.location.href="admin.html";
+        }
+        else
         window.location.href = 'index.html';  // Redirect back to index after saving
     })
     .catch(error => {
