@@ -1,10 +1,15 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
+    margin: 0px;
+    padding: 0px;
 }
-
 .leaderboard-container {
     max-width: 800px;
     margin: 50px auto;
@@ -60,71 +65,45 @@ body {
     .leaderboard-table th, .leaderboard-table td {
         padding: 8px;
     }
+}.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    margin: 0px;
 }
-    .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 15px 50px;
-        background: rgba(0, 0, 0, 0.2);
-        backdrop-filter: blur(10px);
-        margin: 0px;
-    }
-    .logo {
-        display: flex;
-        align-items: center;
-    }
-    .logo img {
-        width: 50px;
-        height: 50px;
-        border-radius: 10px;
-        margin-right: 10px;
-    }
-    nav ul {
-        display: flex;
-        list-style: none;
-    }
-    nav ul li {
-        margin: 0 15px;
-        cursor: pointer;
-        font-weight: bold;
-        transition: 0.3s;
-    }
-    nav a{
-        color: black;
-        text-decoration: none;
-    }
-    nav ul li a:hover{
-        color: #ffcc00;
-    }
-    .intro {
-        padding: 50px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-    }
-    .intro h1 {
-        font-size: 50px;
-        margin-bottom: 20px;
-    }
-    .intro p {
-        font-size: 20px;
-        margin-bottom: 20px;
-    }
-    .btn {
-        background: #ffcc00;
-        padding: 10px 20px;
-        border-radius: 20px;
-        font-size: 18px;
-        font-weight: bold;
-        text-decoration: none;
-        color: black;
-        transition: 0.1s;
-    }
-    .btn:hover {
-        background: #ff9900;
-    }
+.header h2{
+    font-size: 24px;
+}
+.logo {
+    display: flex;
+    align-items: center;
+}
+.logo img {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+nav ul {
+    display: flex;
+    list-style: none;
+}
+nav ul li {
+    margin: 0 15px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+nav a{
+    color: black;
+    text-decoration: none;
+}
+nav ul li a:hover{
+    color: #ffcc00;
+}
     body {
         font-family: Arial, sans-serif;
         background: radial-gradient(#fff,#ffd6d6);
@@ -164,4 +143,7 @@ body {
     }
     button:hover {
         background: #218838;
+    }
+    nav ul li a:hover{
+        color: #148df0;
     }

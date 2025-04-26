@@ -1,10 +1,10 @@
-// Fetch quizzes from server
+
 function loadQuizzes() {
     fetch('/quizzes')
         .then(response => response.json())
         .then(quizzes => {
             const list = document.getElementById('quiz-list');
-            list.innerHTML = '';  // Clear existing list
+            list.innerHTML = '';  
             quizzes.forEach((quiz, index) => {
                 const item = document.createElement('div');
                 item.className = 'quiz-item';
@@ -21,7 +21,7 @@ function loadQuizzes() {
         .catch(err => console.error('Error loading quizzes:', err));
 }
 
-// Delete quiz
+
 function deleteQuiz(index) {
     fetch(`/delete-quiz/${index}`, {
         method: 'DELETE'
@@ -29,7 +29,7 @@ function deleteQuiz(index) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            loadQuizzes();  // Reload quizzes after delete
+            loadQuizzes(); 
         } else {
             alert('Error deleting quiz');
         }
@@ -58,3 +58,28 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   });
+
+  function toggleSignInSignOut() {
+    const userName = localStorage.getItem('userName');
+    if (userName) {
+        localStorage.removeItem('userName');
+        document.getElementById('status-change').textContent = 'Sign In';
+        window.location.href = "signin.html";
+    } else {
+        window.location.href = "signin.html";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const userName = localStorage.getItem('userName');
+    if (userName) {
+        document.getElementById('status-change').textContent = 'Sign Out';
+
+        if (userName === 'admin') {
+            const homeLink = document.getElementById('home-link');
+            if (homeLink) {
+                homeLink.href = 'admin.html';
+            }
+        }
+    }
+});

@@ -1,10 +1,6 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-const {LocalStorage} = require('node-localstorage');
-
-
-const localStorage = new LocalStorage('./scratch')
 
 const app = express();
 const cors = require('cors');
@@ -89,24 +85,16 @@ app.post('/save-quiz', (req, res) => {
             return res.status(500).json({ message: 'Error parsing existing questions data' });
           }
         }
-
-        // Prepare new questions in the correct format
         const newQuestions = {
           title: quiz.title,
           questions: quiz.questions
         };
-
-        // Add new questions from the quiz to questions.json
         questions.push(newQuestions);
-
-        // Write the updated questions data back to questions.json
         fs.writeFile(questionsFilePath, JSON.stringify(questions, null, 2), (err) => {
           if (err) {
             console.error('Error saving questions data:', err);
             return res.status(500).json({ message: 'Error saving questions data' });
           }
-
-          // Respond with success
           res.status(200).json({ message: 'Quiz saved and questions updated successfully!' });
         });
       });
@@ -115,7 +103,7 @@ app.post('/save-quiz', (req, res) => {
 });
 // API to get all quizzes
 app.get('/quizzes', (req, res) => {
-  const filePath = path.join(__dirname, 'quizzes.json');
+  const filePath = path.join(__dirname,'public', 'questions.json');
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err || !data.trim()) return res.json([]);
     try {

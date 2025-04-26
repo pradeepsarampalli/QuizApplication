@@ -1,5 +1,5 @@
 document.getElementById('login').addEventListener('click', async (e) => {
-    e.preventDefault(); // Prevent form submission
+    e.preventDefault(); 
 
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -20,26 +20,23 @@ document.getElementById('login').addEventListener('click', async (e) => {
 
         const data = await response.json();
         if (response.ok) {
-            alert(data.message);  // Success
-            //newly added
+            //alert(data.message); 
             localStorage.setItem('userName', data.username);
             localStorage.setItem('userEmail', data.email);
             if(data.username==='admin' && data.email==='admin@gmail.com')
             window.location.href='/admin.html'
             else
-            window.location.href = '/index.html';  // Redirect to homepage or dashboard
+            window.location.href = '/index.html'; 
         } else {
-            alert(data.message );  // Error message from backend
+            alert(data.message ); 
         }
     } catch (error) {
-        console.error('Error:', error);
         alert('Something went wrong');
     }
 
-    // Example: Send token from localStorage to server
 const token = localStorage.getItem('userName');
 
-fetch('http://localhost:3000/api/userdata', {
+fetch('api/userdata', {
 method: 'POST',
 headers: {
 'Content-Type': 'application/json'

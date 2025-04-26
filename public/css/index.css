@@ -7,7 +7,7 @@ html{
     box-sizing: border-box;
 }
 body {
-    font-family: Arial, sans-serif;
+    font-family: sans-serif,Verdana, Geneva, Tahoma, sans-serif;
     background: radial-gradient(#fff,#ffd6d6);
     color: white;
     text-align: center;
@@ -20,6 +20,10 @@ body {
     padding: 15px 50px;
     background: rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(10px);
+    margin: 0px;
+}
+.header h2{
+    font-size: 24px;
 }
 .logo {
     display: flex;
@@ -46,7 +50,7 @@ nav a{
     text-decoration: none;
 }
 nav ul li a:hover{
-    color: #ffcc00;
+    color: #148df0;
 }
 .intro {
     padding: 50px;
@@ -87,7 +91,7 @@ nav ul li a:hover{
     background: rgba(155, 143, 143, 0.152);
     padding: 20px;
     border-radius: 10px;
-    width: fit-content;
+    width: 240px;
     text-align: center;
     transition: 0.3s;
 }
@@ -95,12 +99,15 @@ nav ul li a:hover{
     transform: scale(1.1);
 }
 .card button{
-    background-color: rgba(229, 189, 161, 0.353);
-    border: 1px solid gray;
+    /* background-color: rgba(229, 189, 161, 0.353); */
+    background-color: #148df09d;
+    border: 1px solid rgba(229, 189, 161, 0.353);
     width: 70px;
     padding: 5px;
     border-radius: 5px;
     margin-top: 8px;
+    color: black;
+    font-weight: 300;
 }
 .card a{
     text-decoration: none;
@@ -130,7 +137,7 @@ nav ul li a:hover{
     margin-top: 20px;
 }
 h2{
-    font-size: 40px;
+    font-size: 30px;
 }
 .footer {
 background: rgba(0, 0, 0, 0.3);

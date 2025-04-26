@@ -34,5 +34,11 @@
     "quiz": "DAA",
     "score": 3,
     "timestamp": "2025-04-24T01:00:55.831Z"
+  },
+  {
+    "name": "Pradeep",
+    "quiz": "Advanced Data Structures and Algorithms (ADSJ)",
+    "score": 5,
+    "timestamp": "2025-04-26T17:55:24.203Z"
   }
 ]

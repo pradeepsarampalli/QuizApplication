@@ -5,20 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="../css/attempt.css">
   <title>Attempt Quiz</title>
+  <link rel="icon" href="../images/quiz-logo.png">
 </head>
 <body>
+  <a id="home-link" href="index.html" style="display: none;"></a>
   <div class="quiz-container" id="quiz-box">
     <header class="quiz-header">
-      <h1>Quiz Title: General Knowledge</h1>
-      <div id="timer">Time Left: 05:00</div>
+      <h1>Quiz Title: <span id="quiz-title">General Knowledge</span></h1>
+      <div id="timer"><img id="timer-img" src="../images/timer.png">05:00</div>
     </header>
+    <div id="score-display" style="display: none; margin-top: 20px; font-size: 20px; font-weight: bold;"></div>
     <div id="quiz-content"></div>
     <div class="navigation-buttons">
-      <button class="prev-btn">Previous</button>
-      <button class="next-btn">Next</button>
-    </div>
+      <button id="prev-btn" class="prev-btn" disabled>Previous</button>
+      <button class="next-btn" disabled>Next</button>
+    </div>    
     <button class="submit-btn" disabled>Submit Quiz</button>
+    <div class="extra-btns">
     <button id="review-btn" style="display: none; margin-top: 10px;" class="submit-btn">Review Answers</button>
+    <button id="home-btn" onclick="window.location.href='index.html'" style="display: none; margin-top: 10px;" class="submit-btn">Return Home</button>
+  </div>
   </div>
 
   <div class="quiz-container" id="review-container" style="display: none;">

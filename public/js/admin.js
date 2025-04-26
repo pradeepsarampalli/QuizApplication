@@ -8,7 +8,6 @@ function loadQuizzes() {
                 card.className = 'card';
                 card.innerHTML = `
                     <h3>${quiz.title}</h3>
-                    <p>${quiz.description || "No description"}</p>
                     <button><a href="attempt.html?quiz=${quiz.title}">Attempt</a></button>
                 `;
                 container.appendChild(card);
@@ -17,20 +16,20 @@ function loadQuizzes() {
         .catch(err => console.error("Failed to load quizzes", err));
 }
 
-// Change greeting and handle sign in / sign out dynamically
+
 function toggleSignInSignOut() {
     const userName = localStorage.getItem('userName');
     if (userName) {
         localStorage.removeItem('userName');
         document.getElementById('status-change').textContent = 'Sign In';
         document.getElementById('un').textContent = 'Guest';
-        window.location.href = "index.html";
+        window.location.href = "signin.html";
     } else {
         window.location.href = "signin.html";
     }
 }
 
-// Update user name display if logged in
+
 document.addEventListener('DOMContentLoaded', () => {
     const userName = localStorage.getItem('userName');
     if (userName) {

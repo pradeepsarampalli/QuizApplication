@@ -1,8 +1,12 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+  }
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
-    padding: 20px;
 }
 .container {
     max-width: 800px;
@@ -72,7 +76,7 @@ nav a{
     text-decoration: none;
 }
 nav ul li a:hover{
-    color: #ffcc00;
+    color: #148df0;
 }
 .intro {
     padding: 50px;

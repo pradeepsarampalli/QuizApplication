@@ -1,7 +1,9 @@
 let currentQuestionIndex = 0;
 let currentQuiz = [];
 let selectedAnswers = [];
+let quizSubmitted = false;
 let timerInterval;
+
 
 function getQuizName() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -14,11 +16,12 @@ async function loadQuiz() {
     const response = await fetch('/api/questions');
     const data = await response.json();
     const quiz = data.find(q => q.title.toLowerCase() === quizName?.toLowerCase());
+    document.getElementById('quiz-title').textContent = quiz.title;
     if (quiz) {
       currentQuiz = quiz.questions;
       selectedAnswers = new Array(currentQuiz.length).fill(null);
       renderQuestion(currentQuiz[currentQuestionIndex]);
-      startTimer(5 * 60); // 5 minutes
+      startTimer(1 * 60); // 5 minutes
     } else {
       document.getElementById('quiz-content').innerHTML = 'Quiz not found.';
     }
@@ -49,14 +52,21 @@ function renderQuestion(questionObj) {
     });
   });
   updateNavigationButtons();
-
 }
+
 function updateNavigationButtons() {
   const prevBtn = document.querySelector('.prev-btn');
   const nextBtn = document.querySelector('.next-btn');
+  const submitBtn = document.querySelector('.submit-btn');
 
-  prevBtn.disabled = currentQuestionIndex === 0;
-  nextBtn.disabled = currentQuestionIndex === currentQuiz.length - 1;
+  prevBtn.disabled = (currentQuestionIndex === 0);
+  nextBtn.disabled = (currentQuestionIndex === currentQuiz.length - 1); 
+
+  if (quizSubmitted) {
+    submitBtn.disabled = true;
+    prevBtn.disabled = true;
+    nextBtn.disabled = true;
+  }
 }
 
 function checkIfAllAnswered() {
@@ -78,6 +88,39 @@ document.querySelector('.next-btn').addEventListener('click', () => {
   }
 });
 
+// document.querySelector('.submit-btn').addEventListener('click', async () => {
+//   let score = 0;
+//   currentQuiz.forEach((q, index) => {
+//     if (selectedAnswers[index] === q.options.indexOf(q.answer)) score++;
+//   });
+
+//   const dataToSend = {
+//     name: localStorage.getItem('userName'),
+//     quiz: getQuizName(),
+//     score: score,
+//     timestamp: new Date().toISOString()
+//   };
+
+//   try {
+//     const response = await fetch('/api/save-score', {
+//       method: 'POST',
+//       headers: { 'Content-Type': 'application/json' },
+//       body: JSON.stringify(dataToSend)
+//     });
+
+//     const result = await response.text();
+//     alert(`You scored ${score} out of ${currentQuiz.length}\n${result}`);
+//     clearInterval(timerInterval);
+//     document.getElementById('review-btn').style.display = 'inline-block';
+//     document.getElementById('home-btn').style.display = 'inline-block';
+
+//   } catch (error) {
+//     alert('Error saving your score.');
+//   }
+
+//   quizSubmitted = true;
+//   updateNavigationButtons(); 
+// });
 document.querySelector('.submit-btn').addEventListener('click', async () => {
   let score = 0;
   currentQuiz.forEach((q, index) => {
@@ -99,13 +142,28 @@ document.querySelector('.submit-btn').addEventListener('click', async () => {
     });
 
     const result = await response.text();
-    alert(`You scored ${score} out of ${currentQuiz.length}\n${result}`);
+
+    // ❌ Remove the alert
+    // alert(`You scored ${score} out of ${currentQuiz.length}\n${result}`);
+
+    // ✅ Display the score nicely in HTML
+    const scoreDisplay = document.getElementById('score-display');
+    scoreDisplay.innerHTML = `
+      <p>🎯 <strong>You scored ${score} out of ${currentQuiz.length}</strong></p>
+      <p>${result}</p>
+    `;
+    scoreDisplay.style.display = 'block';
+
     clearInterval(timerInterval);
     document.getElementById('review-btn').style.display = 'inline-block';
+    document.getElementById('home-btn').style.display = 'inline-block';
+
   } catch (error) {
-    console.error('Error sending score:', error);
     alert('Error saving your score.');
   }
+
+  quizSubmitted = true;
+  updateNavigationButtons(); 
 });
 
 document.getElementById('review-btn').addEventListener('click', () => {
@@ -127,6 +185,7 @@ function renderReview(quiz, answers) {
       </div>
     `;
   }).join('');
+  updateNavigationButtons()
 }
 
 function startTimer(duration) {
@@ -135,15 +194,23 @@ function startTimer(duration) {
   timerInterval = setInterval(() => {
     const minutes = String(Math.floor(timer / 60)).padStart(2, '0');
     const seconds = String(timer % 60).padStart(2, '0');
-    timerDisplay.textContent = `Time Left: ${minutes}:${seconds}`;
+    timerDisplay.innerHTML = `<img id="timer-img" src="../images/timer.png">${minutes}:${seconds}`;
 
     if (--timer < 0) {
       clearInterval(timerInterval);
-      alert("Time's up! Submitting your quiz automatically.");
-      document.querySelector('.submit-btn').click();
+      alert("Time's up! Better Luck next time😊.");
+      quizSubmitted=true;
+      const userName = localStorage.getItem('userName')
+      const homeLink = document.getElementById('home-link');
+      if (userName === 'admin') {
+        if (homeLink) {
+            homeLink.href = 'admin.html';
+        }
     }
+    window.location.href=homeLink.href;
+
+  }
   }, 1000);
 }
 
 window.onload = loadQuiz;
-

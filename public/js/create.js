@@ -48,8 +48,6 @@ function saveQuizToServer(event) {
                 options.push(optionInput.value.trim());
             }
         }
-    
-        // Validate correct answer
         if (answer < 1 || answer > options.length) {
             alert(`Question ${i}: Correct answer must be between 1 and ${options.length}`);
             return;
@@ -58,7 +56,7 @@ function saveQuizToServer(event) {
         questions.push({ 
             question: questionText, 
             options, 
-            answer: options[answer - 1] // store the correct answer text
+            answer: options[answer - 1] 
         });
         
     }
@@ -81,7 +79,7 @@ function saveQuizToServer(event) {
             window.location.href="admin.html";
         }
         else
-        window.location.href = 'index.html';  // Redirect back to index after saving
+        window.location.href = 'index.html'; 
     })
     .catch(error => {
         alert('Error saving quiz!');
@@ -96,4 +94,31 @@ document.addEventListener('DOMContentLoaded', () => {
         homeLink.href = 'admin.html';
       }
     }
+
   });
+
+
+  function toggleSignInSignOut() {
+    const userName = localStorage.getItem('userName');
+    if (userName) {
+        localStorage.removeItem('userName');
+        document.getElementById('status-change').textContent = 'Sign In';
+        window.location.href = "signin.html";
+    } else {
+        window.location.href = "signin.html";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const userName = localStorage.getItem('userName');
+    if (userName) {
+        document.getElementById('status-change').textContent = 'Sign Out';
+
+        if (userName === 'admin') {
+            const homeLink = document.getElementById('home-link');
+            if (homeLink) {
+                homeLink.href = 'admin.html';
+            }
+        }
+    }
+});
