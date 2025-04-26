@@ -88,39 +88,6 @@ document.querySelector('.next-btn').addEventListener('click', () => {
   }
 });
 
-// document.querySelector('.submit-btn').addEventListener('click', async () => {
-//   let score = 0;
-//   currentQuiz.forEach((q, index) => {
-//     if (selectedAnswers[index] === q.options.indexOf(q.answer)) score++;
-//   });
-
-//   const dataToSend = {
-//     name: localStorage.getItem('userName'),
-//     quiz: getQuizName(),
-//     score: score,
-//     timestamp: new Date().toISOString()
-//   };
-
-//   try {
-//     const response = await fetch('/api/save-score', {
-//       method: 'POST',
-//       headers: { 'Content-Type': 'application/json' },
-//       body: JSON.stringify(dataToSend)
-//     });
-
-//     const result = await response.text();
-//     alert(`You scored ${score} out of ${currentQuiz.length}\n${result}`);
-//     clearInterval(timerInterval);
-//     document.getElementById('review-btn').style.display = 'inline-block';
-//     document.getElementById('home-btn').style.display = 'inline-block';
-
-//   } catch (error) {
-//     alert('Error saving your score.');
-//   }
-
-//   quizSubmitted = true;
-//   updateNavigationButtons(); 
-// });
 document.querySelector('.submit-btn').addEventListener('click', async () => {
   let score = 0;
   currentQuiz.forEach((q, index) => {
@@ -142,11 +109,6 @@ document.querySelector('.submit-btn').addEventListener('click', async () => {
     });
 
     const result = await response.text();
-
-    // ❌ Remove the alert
-    // alert(`You scored ${score} out of ${currentQuiz.length}\n${result}`);
-
-    // ✅ Display the score nicely in HTML
     const scoreDisplay = document.getElementById('score-display');
     scoreDisplay.innerHTML = `
       <p>🎯 <strong>You scored ${score} out of ${currentQuiz.length}</strong></p>
