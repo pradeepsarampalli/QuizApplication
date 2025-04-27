@@ -490,3 +490,67 @@ app.get('/scores.json', (req, res) => {
     });
   });
   
+
+  app.get('/users', (req, res) => {
+    const usersPath = path.join(__dirname, 'users.json');
+    fs.readFile(usersPath, 'utf-8', (err, data) => {
+        if (err) return res.status(500).json({ success: false });
+        res.json(JSON.parse(data));
+    });
+});
+
+app.delete('/delete-user/:index', (req, res) => {
+    const index = req.params.index;
+    const usersPath = path.join(__dirname, 'users.json');
+    
+    fs.readFile(usersPath, 'utf-8', (err, data) => {
+        if (err) return res.status(500).json({ success: false });
+        let users = JSON.parse(data);
+        if (index < 0 || index >= users.length) {
+            return res.status(400).json({ success: false });
+        }
+        users.splice(index, 1);
+        fs.writeFile(usersPath, JSON.stringify(users, null, 2), (err) => {
+            if (err) return res.status(500).json({ success: false });
+            res.json({ success: true });
+        });
+    });
+});
+
+app.get('/manageusers.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'html', 'manageusers.html'));
+});
+
+// Send scores data
+app.get('/leaderboard', (req, res) => {
+  const scoresPath = path.join(__dirname, 'scores.json');
+  fs.readFile(scoresPath, 'utf-8', (err, data) => {
+      if (err) return res.status(500).json({ success: false });
+      res.json(JSON.parse(data));
+  });
+});
+
+// Delete score entry by index
+app.delete('/delete-leaderboard-entry/:index', (req, res) => {
+  const index = parseInt(req.params.index);
+  const scoresPath = path.join(__dirname, 'scores.json');
+
+  fs.readFile(scoresPath, 'utf-8', (err, data) => {
+      if (err) return res.status(500).json({ success: false });
+      let scores = JSON.parse(data);
+      if (index < 0 || index >= scores.length) {
+          return res.status(400).json({ success: false });
+      }
+      scores.splice(index, 1);
+      fs.writeFile(scoresPath, JSON.stringify(scores, null, 2), (err) => {
+          if (err) return res.status(500).json({ success: false });
+          res.json({ success: true });
+      });
+  });
+});
+
+
+// Serve manageleaderboard.html page
+app.get('/manageleaderboard.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'html', 'manageleaderboard.html'));
+});

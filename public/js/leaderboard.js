@@ -44,7 +44,7 @@ async function loadLeaderboard() {
         const userScore = document.getElementById('user-score');
         const current = allScores.find(u => u.name?.toLowerCase() === currentUser?.toLowerCase());
 
-        if (current) {
+        if (userName) {
             userName.textContent=currentUser;
             userRank.textContent = allScores.indexOf(current) + 1;
             userScore.textContent = current.score;

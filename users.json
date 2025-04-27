@@ -2,11 +2,16 @@
   {
     "username": "Pradeep",
     "email": "pradeepsarampalli@gmail.com",
-    "password": "temp@123"
+    "password": "deep@2808"
   },
   {
     "username": "admin",
     "email": "admin@gmail.com",
     "password": "admin@123"
+  },
+  {
+    "username": "sample",
+    "email": "sample@gmail.com",
+    "password": "1234"
   }
 ]

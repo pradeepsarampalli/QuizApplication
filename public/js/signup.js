@@ -20,7 +20,6 @@ form.addEventListener('submit', (e) => {
     .then(response => response.json())
     .then(data => {
         if (data.message === 'Sign-up successful') {
-            alert('Sign-up successful!');
             window.location.href = 'signin.html'; 
         } else {
             alert(data.message); 
