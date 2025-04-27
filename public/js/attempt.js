@@ -21,7 +21,7 @@ async function loadQuiz() {
       currentQuiz = quiz.questions;
       selectedAnswers = new Array(currentQuiz.length).fill(null);
       renderQuestion(currentQuiz[currentQuestionIndex]);
-      startTimer(1 * 60); // 5 minutes
+      startTimer(5 * 60); // 5 minutes
     } else {
       document.getElementById('quiz-content').innerHTML = 'Quiz not found.';
     }
