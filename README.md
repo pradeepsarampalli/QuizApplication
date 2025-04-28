@@ -29,10 +29,10 @@ Installation
 Clone the repository:
 
 bash
-git clone https://github.com/yourusername/quiz-main.git
+git clone https://github.com/pradeepsarampalli/quiz-main.git
 cd quiz-main/quiz-main
-Install dependencies:
 
+Install dependencies:
 bash
 npm install
 
