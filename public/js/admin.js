@@ -1,20 +1,20 @@
-function loadQuizzes() {
-    fetch('/quizzes')
-        .then(res => res.json())
-        .then(quizzes => {
-            const container = document.querySelector('.featured-quizzes');
-            quizzes.forEach(quiz => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <h3>${quiz.title}</h3>
-                    <button><a href="attempt.html?quiz=${quiz.title}">Attempt</a></button>
-                `;
-                container.appendChild(card);
-            });
-        })
-        .catch(err => console.error("Failed to load quizzes", err));
-}
+// function loadQuizzes() {
+//     fetch('/quizzes')
+//         .then(res => res.json())
+//         .then(quizzes => {
+//             const container = document.querySelector('.featured-quizzes');
+//             quizzes.forEach(quiz => {
+//                 const card = document.createElement('div');
+//                 card.className = 'card';
+//                 card.innerHTML = `
+//                     <h3>${quiz.title}</h3>
+//                     <button><a href="attempt.html?quiz=${quiz.title}">Attempt</a></button>
+//                 `;
+//                 container.appendChild(card);
+//             });
+//         })
+//         .catch(err => console.error("Failed to load quizzes", err));
+// }
 
 
 function toggleSignInSignOut() {
@@ -43,5 +43,5 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
-    loadQuizzes();
+    //loadQuizzes();
 });

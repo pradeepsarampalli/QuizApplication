@@ -21,7 +21,7 @@ async function loadQuiz() {
       currentQuiz = quiz.questions;
       selectedAnswers = new Array(currentQuiz.length).fill(null);
       renderQuestion(currentQuiz[currentQuestionIndex]);
-      startTimer(5* 60); // 5 minutes
+      startTimer(5 * 60); // 5 minutes
     } else {
       document.getElementById('quiz-content').innerHTML = 'Quiz not found.';
     }
@@ -87,7 +87,6 @@ document.querySelector('.next-btn').addEventListener('click', () => {
     renderQuestion(currentQuiz[currentQuestionIndex]);
   }
 });
-
 document.querySelector('.submit-btn').addEventListener('click', async () => {
   let score = 0;
   currentQuiz.forEach((q, index) => {
@@ -110,7 +109,6 @@ document.querySelector('.submit-btn').addEventListener('click', async () => {
 
     const result = await response.text();
 
- 
     const scoreDisplay = document.getElementById('score-display');
     scoreDisplay.innerHTML = `
       <p>🎯 <strong>You scored ${score} out of ${currentQuiz.length}</strong></p>
