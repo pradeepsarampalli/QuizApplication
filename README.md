@@ -1,6 +1,6 @@
 # 📚 Quiz Application
 
-A full-stack **Quiz Application** built with **Node.js, Express, and Vanilla JS**. It allows users to sign up, log in, create quizzes, attempt quizzes, track scores, and view leaderboards.
+A full-stack **Quiz Application** built with **Node.js, Express, and Vanilla JS**. It allows users to sign up, log in, create quizzes, attempt quizzes, track scores, and view leaderboards. Used json based storage .
 
 ---
 
