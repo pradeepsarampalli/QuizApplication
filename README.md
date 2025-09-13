@@ -94,4 +94,4 @@ This project is licensed under the **MIT License** – feel free to use and modi
 ## 👨‍💻 Author
 
 Developed by **S Pradeep** ✨
-If you like this project, consider giving it a ⭐ on GitHub!
+If you like this project, consider giving it a ⭐ on GitHub and suggest some improvements!
